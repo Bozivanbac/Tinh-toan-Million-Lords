@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="vi"
+<html lang="vi">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Million Lords - Công Cụ Đối Chiếu Công Thành</title>
@@ -9,198 +10,257 @@
     
     <style>
         body {
- 
-        <div class="flex flex-col md:flex-row items-center justify-between pb-6 border-b border-slate-800 gap-4">
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #050b14;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(14, 116, 144, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 0% 100%, rgba(245, 158, 11, 0.05) 0%, transparent 40%);
+        }
+        .game-panel {
+            background: rgba(10, 20, 38, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+        }
+        .input-glow:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+            outline: none;
+        }
+        /* Style customized to match image_d2b5d9.png defense card */
+        .defense-card {
+            background-color: #0c1b30;
+            border: 2px solid #162f52;
+            border-radius: 1.5rem;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-start p-4 md:p-8 text-gray-100">
+
+    <div class="w-full max-w-5xl space-y-6">
+        
+        <!-- Header Section -->
+        <div class="flex flex-col sm:flex-row items-center justify-between pb-6 border-b border-slate-800 gap-4">
             <div class="flex items-center gap-3">
-                <div class="p-
+                <div class="p-3 bg-cyan-500/10 rounded-2xl border border-cyan-500/20 text-cyan-400">
+                    <span class="material-icons text-3xl">query_stats</span>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-extrabold tracking-wider bg-gradient-to-r from-cyan-400 to-sky-500 bg-clip-text text-transparent">
+                        TACTICAL SIEGE CALCULATOR
+                    </h1>
+                    <p class="text-xs text-slate-400">Trợ lý tính toán & tối ưu lính công thành - Million Lords</p>
+                </div>
+            </div>
+            
+            <!-- Quick Actions Panel -->
+            <div class="flex items-center gap-2">
+                <button onclick="loadSampleImageD2b5d9()" class="flex items-center gap-1.5 px-3.5 py-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-xl text-cyan-400 text-xs font-bold transition-all">
+                    <span class="material-icons text-sm">image</span>
+                    Tải mẫu từ image_d2b5d9.png
+                </button>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            <!-- Left Column: Input Settings (7 cols) -->
-            <div class="lg:col-span-7 space-y-6">
+            <!-- Left Column: Attacker Inputs (5 cols) -->
+            <div class="lg:col-span-5 space-y-6">
                 
                 <!-- Player Side (Attacker) Configuration -->
-                <div class="p-5 bg-slate-900/40 rounded-2xl border border-emerald-500/20 space-y-4">
-                    <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
-                        <h3 class="text-xs font-black text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">
-                            <span class="material-icons text-sm">swords</span> PHÍA BẠN (TẤN CÔNG)
+                <div class="game-panel p-6 rounded-3xl space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-800/85 pb-3">
+                        <h3 class="text-xs font-black text-cyan-400 uppercase tracking-widest flex items-center gap-2">
+                            <span class="material-icons text-sm">military_tech</span> LỰC LƯỢNG CỦA BẠN (CÔNG)
                         </h3>
-                        <span class="text-[10px] text-emerald-500/70 font-semibold">Attacker Stats</span>
+                        <span class="text-[10px] text-cyan-500/70 font-semibold">Attacker Stats</span>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Lính hiện tại</label>
-                            <div class="flex gap-2">
-                                <input type="number" id="myTroops" value="8.24" step="0.01" min="0" class="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white font-bold text-center text-lg input-glow" oninput="runCalculation()">
-                                <select id="myTroopsUnit" class="px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-emerald-400 font-bold text-sm cursor-pointer" onchange="runCalculation()">
-                                    <option value="T">T</option>
-                                    <option value="G" selected>G</option>
-                                    <option value="M">M</option>
-                                    <option value="K">K</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Striker % (Chỉ số công)</label>
-                            <div class="relative">
-                                <input type="number" id="myAtk" value="417.75" step="0.25" min="0" max="2000" class="w-full p-2.5 pr-8 rounded-xl bg-slate-950 border border-slate-800 text-white font-bold text-center text-lg input-glow" oninput="runCalculation()">
-                                <span class="absolute right-3 top-3.5 text-xs font-bold text-slate-500">%</span>
-                            </div>
+                    <!-- Input My Troops -->
+                    <div class="space-y-1.5">
+                        <label class="block text-xs font-bold text-slate-400 uppercase">Số lính hiện có</label>
+                        <div class="flex gap-2">
+                            <input type="number" id="myTroops" value="50.00" step="0.01" min="0" class="w-full p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-white font-extrabold text-xl input-glow text-center" oninput="runCalculation()">
+                            <select id="myTroopsUnit" class="px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-cyan-400 font-black text-base cursor-pointer" onchange="runCalculation()">
+                                <option value="T">T</option>
+                                <option value="G" selected>G</option>
+                                <option value="M">M</option>
+                                <option value="K">K</option>
+                            </select>
                         </div>
                     </div>
 
-                    <!-- Tactical Quick Attack Buffs (New Feature) -->
-                    <div>
-                        <span class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Phụ trợ tấn công nhanh (Cộng dồn vào chỉ số công):</span>
-                        <div class="flex flex-wrap gap-2">
-                            <button onclick="toggleBuff(this, 10)" class="px-3 py-1.5 bg-slate-950 border border-slate-800 text-[11px] font-semibold rounded-lg text-slate-400 hover:text-white transition-all">
+                    <!-- Input My Atk Bonus % -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <label class="block text-xs font-bold text-slate-400 uppercase">Chỉ số Công (Striker %)</label>
+                            <span id="myAtkVal" class="text-xs font-bold text-cyan-400">50%</span>
+                        </div>
+                        <div class="relative flex items-center gap-3">
+                            <input type="range" id="myAtk" min="0" max="1000" value="120" step="1" class="w-full accent-cyan-400 h-2 bg-slate-950 rounded-lg appearance-none cursor-pointer" oninput="updateAtkSlider(this.value)">
+                            <input type="number" id="myAtkNum" value="120" min="0" max="1000" class="w-20 p-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-center font-bold text-sm" oninput="updateAtkNum(this.value)">
+                        </div>
+                    </div>
+
+                    <!-- Attacker Quick Buff Presets -->
+                    <div class="pt-2">
+                        <span class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Gắn nhanh bổ trợ công:</span>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="setAtkPreset(10)" class="py-1.5 bg-slate-950 hover:bg-slate-900 border border-slate-800/80 text-[11px] font-semibold rounded-lg text-slate-400 hover:text-white transition-all">
                                 +10% Scroll
                             </button>
-                            <button onclick="toggleBuff(this, 25)" class="px-3 py-1.5 bg-slate-950 border border-slate-800 text-[11px] font-semibold rounded-lg text-slate-400 hover:text-white transition-all">
-                                +25% Clan Buff
+                            <button onclick="setAtkPreset(25)" class="py-1.5 bg-slate-950 hover:bg-slate-900 border border-slate-800/80 text-[11px] font-semibold rounded-lg text-slate-400 hover:text-white transition-all">
+                                +25% Clan
                             </button>
-                            <button onclick="toggleBuff(this, 50)" class="px-3 py-1.5 bg-slate-950 border border-slate-800 text-[11px] font-semibold rounded-lg text-slate-400 hover:text-white transition-all">
-                                +50% Striker Gear
-                            </button>
-                            <button onclick="resetBuffs()" class="px-3 py-1.5 bg-rose-500/10 border border-rose-500/20 text-[11px] font-bold rounded-lg text-rose-400 hover:bg-rose-500/20 transition-all ml-auto">
-                                Reset Buffs
+                            <button onclick="setAtkPreset(50)" class="py-1.5 bg-slate-950 hover:bg-slate-900 border border-slate-800/80 text-[11px] font-semibold rounded-lg text-slate-400 hover:text-white transition-all">
+                                +50% Gear
                             </button>
                         </div>
                     </div>
-                </div>
-
-                <!-- Enemy Side (Defender) Configuration -->
-                <div class="p-5 bg-slate-900/40 rounded-2xl border border-rose-500/20 space-y-4">
-                    <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
-                        <h3 class="text-xs font-black text-rose-400 uppercase tracking-widest flex items-center gap-1.5">
-                            <span class="material-icons text-sm">gavel</span> THÀNH ĐỊCH (PHÒNG THỦ)
-                        </h3>
-                        <span class="text-[10px] text-rose-500/70 font-semibold">Defender Defense Info</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Lính địch gốc</label>
-                            <div class="flex gap-2">
-                                <input type="number" id="enemyTroops" value="15.30" step="0.01" min="0" class="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white font-bold text-center text-lg input-glow" oninput="runCalculation()">
-                                <select id="enemyTroopsUnit" class="px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-rose-400 font-bold text-sm cursor-pointer" onchange="runCalculation()">
-                                    <option value="T">T</option>
-                                    <option value="G" selected>G</option>
-                                    <option value="M">M</option>
-                                    <option value="K">K</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Thành (Wall Level)</label>
-                            <div class="relative">
-                                <input type="number" id="cityLevel" value="127" min="1" max="500" class="w-full p-2.5 pr-14 rounded-xl bg-slate-950 border border-slate-800 text-amber-500 font-bold text-center text-lg input-glow" oninput="updateWallHealthByLevel()">
-                                <span class="absolute right-3 top-3.5 text-xs font-bold text-slate-500">Lv.</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Bonus Thủ 1 (Shield %)</label>
-                            <div class="relative">
-                                <input type="number" id="enemyDef1" value="96" min="0" class="w-full p-2.5 pr-8 rounded-xl bg-slate-950 border border-slate-800 text-white font-bold text-center text-lg input-glow" oninput="runCalculation()">
-                                <span class="absolute right-3 top-3.5 text-xs font-bold text-slate-500">%</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Bonus Thủ 2 (Kỹ năng %)</label>
-                            <div class="relative">
-                                <input type="number" id="enemyDef2" value="381" min="0" class="w-full p-2.5 pr-8 rounded-xl bg-slate-950 border border-slate-800 text-white font-bold text-center text-lg input-glow" oninput="runCalculation()">
-                                <span class="absolute right-3 top-3.5 text-xs font-bold text-slate-500">%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Wall Override and Display options -->
-                    <div class="pt-4 border-t border-slate-800/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs">
-                        <div class="flex items-center gap-2 text-slate-400">
-                            <span>Máu thành ước tính (Wall HP):</span>
-                            <span id="wallHpText" class="font-bold text-amber-400">663.00G</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <label class="text-slate-500 text-[10px] font-bold uppercase">Ghi đè HP thành thủ công:</label>
-                            <input type="checkbox" id="overrideWallHp" onchange="toggleWallHpOverride()" class="w-4 h-4 accent-amber-500 cursor-pointer">
-                            <input type="number" id="customWallHp" value="663.00" disabled class="w-20 p-1 bg-slate-950 border border-slate-800 rounded text-center font-bold text-amber-400 text-xs opacity-50 transition-opacity" oninput="runCalculation()">
-                            <span class="text-[10px] text-slate-500 font-bold">G</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Right Column: Visual Summary, Recommendations & History (5 cols) -->
-            <div class="lg:col-span-5 flex flex-col justify-between space-y-6">
-                
-                <!-- Combat Verdict Card -->
-                <div id="verdictCard" class="p-5 rounded-2xl border-2 flex flex-col justify-center items-center text-center transition-all duration-300">
-                    <span id="verdictIcon" class="material-icons text-4xl mb-2"></span>
-                    <h2 id="verdictTitle" class="text-md font-black tracking-wide uppercase"></h2>
-                    <p id="verdictDesc" class="text-[11px] font-medium opacity-90 mt-1"></p>
                 </div>
 
                 <!-- Live Power Comparison Bar -->
-                <div class="bg-slate-900/40 rounded-2xl border border-slate-800 p-4 space-y-3">
-                    <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-between">
-                        <span>Tương quan Sức Mạnh Thực Tế</span>
-                        <span id="estimatedCasualties" class="text-amber-500 text-[10px] font-black"></span>
+                <div class="game-panel p-5 rounded-3xl space-y-3">
+                    <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-wider flex justify-between">
+                        <span>Tương quan sức mạnh thực tế</span>
+                        <span id="casualtyRate" class="text-amber-400">---</span>
                     </h4>
                     
                     <div class="space-y-1.5">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span class="text-emerald-400">Công của bạn: <span id="barMyPower">--</span></span>
-                            <span class="text-rose-400">Thủ của địch: <span id="barEnemyPower">--</span></span>
+                        <div class="flex justify-between text-[11px] font-bold">
+                            <span class="text-cyan-400">Quân ta công: <span id="barMyPower">0</span></span>
+                            <span class="text-rose-400">Quân địch thủ: <span id="barEnemyPower">0</span></span>
                         </div>
-                        <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden flex">
-                            <div id="myPowerBar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-500" style="width: 50%"></div>
-                            <div id="enemyPowerBar" class="h-full bg-gradient-to-r from-rose-500 to-orange-500 transition-all duration-500" style="width: 50%"></div>
+                        <div class="w-full h-3.5 bg-slate-950/80 rounded-full overflow-hidden flex border border-slate-800/50">
+                            <div id="myPowerBar" class="h-full bg-gradient-to-r from-cyan-500 to-sky-400 transition-all duration-300" style="width: 50%"></div>
+                            <div id="enemyPowerBar" class="h-full bg-gradient-to-r from-rose-500 to-orange-400 transition-all duration-300" style="width: 50%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Defender Config (looks exactly like game card) (7 cols) -->
+            <div class="lg:col-span-7 space-y-6 flex flex-col justify-between">
+                
+                <!-- Simplified Defense Widget replication -->
+                <div class="flex flex-col items-center">
+                    <div class="defense-card w-full max-w-md p-6 space-y-5 text-gray-200">
+                        <!-- Card Title -->
+                        <div class="text-center">
+                            <h2 class="text-lg font-extrabold tracking-wide text-sky-400 uppercase">Enemy defense</h2>
+                        </div>
+
+                        <!-- Rows mirroring image_d2b5d9.png -->
+                        <div class="space-y-4">
+                            
+                            <!-- Row 1: Base Enemy Troops -->
+                            <div class="flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-3 min-w-[120px]">
+                                    <!-- Soldiers Icon -->
+                                    <svg class="w-6 h-6 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lính Địch</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 flex-1 max-w-[200px]">
+                                    <input type="number" id="enemyTroops" value="8.25" step="0.01" class="w-full p-1.5 bg-slate-900/90 border border-slate-700/80 rounded-lg text-right font-black text-sm text-white" oninput="runCalculation()">
+                                    <select id="enemyTroopsUnit" class="p-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs font-bold text-sky-400" onchange="runCalculation()">
+                                        <option value="T">T</option>
+                                        <option value="G">G</option>
+                                        <option value="M" selected>M</option>
+                                        <option value="K">K</option>
+                                    </select>
+                                </div>
+                                <div class="text-right font-extrabold text-sm text-slate-300 min-w-[70px]" id="calcEnemyTroopsVal">8.25M</div>
+                            </div>
+
+                            <!-- Row 2: Shield Bonus -->
+                            <div class="flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-3 min-w-[120px]">
+                                    <!-- Shield Icon -->
+                                    <svg class="w-6 h-6 text-cyan-400 fill-current" viewBox="0 0 24 24">
+                                        <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm0 17.92c-3.53-.98-6-4.7-6-8.83V6.37l6-2.25 6 2.25v4.72c0 4.13-2.47 7.85-6 8.83z"/>
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Shield %</span>
+                                </div>
+                                <div class="flex items-center gap-1 flex-1 max-w-[200px] justify-end">
+                                    <span class="text-xs text-sky-400 font-bold mr-1">+</span>
+                                    <input type="number" id="enemyShield" value="96" class="w-20 p-1.5 bg-slate-900/90 border border-slate-700/80 rounded-lg text-center font-black text-sm text-white" oninput="runCalculation()">
+                                    <span class="text-xs text-slate-500 font-bold">%</span>
+                                </div>
+                                <div class="text-right font-extrabold text-sm text-slate-300 min-w-[70px]" id="calcShieldVal">7.92M</div>
+                            </div>
+
+                            <!-- Row 3: Castle/Skill Bonus -->
+                            <div class="flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-3 min-w-[120px]">
+                                    <!-- Castle Shield Icon -->
+                                    <svg class="w-6 h-6 text-indigo-400 fill-current" viewBox="0 0 24 24">
+                                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 6c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 12c-2.7 0-5.8 1.35-6 2v1h12v-1c-.2-.65-3.3-2-6-2z"/>
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kỹ Năng %</span>
+                                </div>
+                                <div class="flex items-center gap-1 flex-1 max-w-[200px] justify-end">
+                                    <span class="text-xs text-indigo-400 font-bold mr-1">+</span>
+                                    <input type="number" id="enemySkill" value="288" class="w-20 p-1.5 bg-slate-900/90 border border-slate-700/80 rounded-lg text-center font-black text-sm text-white" oninput="runCalculation()">
+                                    <span class="text-xs text-slate-500 font-bold">%</span>
+                                </div>
+                                <div class="text-right font-extrabold text-sm text-slate-300 min-w-[70px]" id="calcSkillVal">23.7M</div>
+                            </div>
+
+                            <!-- Row 4: Castle Wall Level -->
+                            <div class="flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-3 min-w-[120px]">
+                                    <!-- Castle Tower Icon -->
+                                    <svg class="w-6 h-6 text-amber-500 fill-current" viewBox="0 0 24 24">
+                                        <path d="M19 4h-2V2h-2v2h-2V2h-2v2H9V2H7v2H5V2H3v2h1v16H3v2h18v-2h-1V4h1zM11 16H9v-2h2v2zm0-4H9v-2h2v2zm4 4h-2v-2h2v2zm0-4h-2v-2h2v2z"/>
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Cấp Thành</span>
+                                </div>
+                                <div class="flex items-center gap-1 flex-1 max-w-[200px] justify-end">
+                                    <span class="text-xs text-amber-500 font-bold mr-1">Lv.</span>
+                                    <input type="number" id="cityLevel" value="96" class="w-20 p-1.5 bg-slate-900/90 border border-slate-700/80 rounded-lg text-center font-black text-sm text-white" oninput="runCalculation()">
+                                </div>
+                                <div class="text-right font-extrabold text-sm text-amber-400 min-w-[70px]" id="calcWallHpVal">2.32G</div>
+                            </div>
+
+                        </div>
+
+                        <!-- Divider line -->
+                        <div class="border-t border-slate-600/80 my-2"></div>
+
+                        <!-- Row 5: Total -->
+                        <div class="flex items-center justify-between">
+                            <span class="text-base font-extrabold tracking-wider text-slate-200">Total</span>
+                            <span class="text-2xl font-black text-[#a3e635]" id="enemyTotalPower">2,36G</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Strategic Advisor Output -->
-                <div class="bg-slate-900/40 rounded-2xl border border-slate-800 p-4 space-y-3">
-                    <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-800 pb-2">
-                        CỐ VẤN CHIẾN THUẬT
-                    </h4>
-
-                    <div class="space-y-2">
-                        <div class="flex justify-between items-center bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/50">
-                            <span class="text-[11px] text-slate-400 font-medium">Lính cần tối thiểu:</span>
-                            <span id="minRequiredTroops" class="text-amber-400 font-black text-xs">--</span>
-                        </div>
-
-                        <div class="flex justify-between items-center bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/50">
-                            <span class="text-[11px] text-slate-400 font-medium">An toàn (+2% lính):</span>
-                            <span id="safeRequiredTroops" class="text-emerald-400 font-black text-sm">--</span>
-                        </div>
-
-                        <div class="flex justify-between items-center bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/50">
-                            <span class="text-[11px] text-slate-400 font-medium">Lực lượng bổ sung:</span>
-                            <span id="shortageTroops" class="text-rose-400 font-black text-xs">--</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Scout Targets History (New Feature) -->
-                <div class="bg-slate-900/40 rounded-2xl border border-slate-800 p-4 space-y-3 flex-1 min-h-[160px] flex flex-col justify-between">
-                    <div>
-                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-800 pb-2 flex items-center justify-between">
-                            <span>Lịch sử thám báo mục tiêu</span>
-                            <button onclick="clearTargetHistory()" class="text-[9px] text-rose-400 hover:underline uppercase font-bold">Xóa tất cả</button>
+                <div class="game-panel p-5 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <h4 class="text-xs font-black text-cyan-400 uppercase tracking-widest">
+                            CỐ VẤN CHIẾN THUẬT
                         </h4>
-                        
-                        <div id="historyList" class="mt-2 space-y-2 max-h-[140px] overflow-y-auto pr-1 text-xs">
-                            <p class="text-slate-500 text-center py-4">Chưa có mục tiêu nào được lưu.</p>
+                        <span id="verdictStatus" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase">---</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="bg-slate-950/60 p-3 rounded-2xl border border-slate-800/60 text-center">
+                            <span class="block text-[10px] text-slate-400 font-medium mb-1">Cần tối thiểu (1:1):</span>
+                            <span id="minRequiredTroops" class="text-amber-400 font-black text-sm">--</span>
+                        </div>
+
+                        <div class="bg-slate-950/60 p-3 rounded-2xl border border-slate-800/60 text-center">
+                            <span class="block text-[10px] text-slate-400 font-medium mb-1">An toàn (+2% lính):</span>
+                            <span id="safeRequiredTroops" class="text-emerald-400 font-black text-base">--</span>
+                        </div>
+
+                        <div class="bg-slate-950/60 p-3 rounded-2xl border border-slate-800/60 text-center">
+                            <span class="block text-[10px] text-slate-400 font-medium mb-1">Cần bổ sung thêm:</span>
+                            <span id="shortageTroops" class="text-rose-400 font-black text-sm">--</span>
                         </div>
                     </div>
                 </div>
@@ -209,100 +269,51 @@
 
         </div>
 
-        <!-- Math formula explainer updated from image_d244a2.jpg style -->
-        <div class="p-5 bg-slate-950 rounded-2xl border border-slate-800 text-xs text-slate-400 space-y-2">
-            <h4 class="font-bold text-slate-300 flex items-center gap-1">
-                <span class="material-icons text-sm text-amber-500">info</span>
-                Giải thích Công Thức Trận Chiến trong Game
+        <!-- Math formula explainer mirroring image_d2b5d9.png logic -->
+        <div class="p-5 bg-slate-950/90 rounded-2xl border border-slate-800/80 text-xs text-slate-400 space-y-2">
+            <h4 class="font-bold text-slate-300 flex items-center gap-1.5">
+                <span class="material-icons text-sm text-cyan-400">info</span>
+                Giải thích Cơ Chế Đối Chiếu Công Thành
             </h4>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <p>1. <strong>Sức mạnh thủ thành địch</strong> = Máu thành (Wall HP) + Lính địch × (1 + Tổng % Thủ). <br>
-                Máu thành mặc định được tính theo cơ chế lũy thừa cấp độ: <code class="text-amber-400">57.14 * 1.20022^Level</code>.</p>
-                <p>2. <strong>Sức mạnh công quân ta</strong> = Lực lượng quân ta mang theo × (1 + Tổng % Công của bạn). <br>
-                Hệ thống sẽ tính chính xác mức lính tối ưu cần thiết để vượt qua lực lượng phòng thủ và ước tính thiệt hại.</p>
+                <p>1. <strong>Sức mạnh thủ thành:</strong> Tính tổng từ lính địch gốc, cộng dồn hai chỉ số thủ là Shield% và Kỹ năng%, sau đó cộng với lượng HP của thành được cấu hình tự động dựa vào cấp độ thành (<code class="text-amber-400">57.14 * 1.20022^Cấp</code>).</p>
+                <p>2. <strong>Hệ số Công phe ta:</strong> Sức mạnh công = <code class="text-cyan-400">Lính ta * (1 + Công%)</code>. Trình tính toán sẽ so sánh trực tiếp hai đầu mốc sức mạnh để đưa ra số lượng quân cần đem chính xác nhất.</p>
             </div>
         </div>
 
     </div>
 
     <script>
-        let tacticalBuffsValue = 0;
-        let scoutTargets = [];
-
-        // Load Scout Targets from Local Storage on load
-        window.onload = function() {
-            if (localStorage.getItem('ml_scout_history')) {
-                try {
-                    scoutTargets = JSON.parse(localStorage.getItem('ml_scout_history'));
-                } catch(e) {
-                    scoutTargets = [];
-                }
-            }
-            updateWallHealthByLevel();
-            renderHistory();
-        };
-
-        // Preset scout report from image_d244a2.jpg
-        function loadReportPreset() {
-            document.getElementById('enemyTroops').value = "15.30";
-            document.getElementById('enemyTroopsUnit').value = "G";
-            document.getElementById('enemyDef1').value = "96";
-            document.getElementById('enemyDef2').value = "381";
-            document.getElementById('cityLevel').value = "127";
-            document.getElementById('overrideWallHp').checked = false;
-            toggleWallHpOverride();
-            resetBuffs();
-            updateWallHealthByLevel();
-        }
-
-        // Quick attack buffs toggler (Cộng dồn)
-        function toggleBuff(button, val) {
-            button.classList.toggle('bg-slate-950');
-            button.classList.toggle('border-slate-800');
-            button.classList.toggle('text-slate-400');
+        // Preset scout report from image_d2b5d9.png
+        function loadSampleImageD2b5d9() {
+            document.getElementById('enemyTroops').value = "8.25";
+            document.getElementById('enemyTroopsUnit').value = "M";
+            document.getElementById('enemyShield').value = "96";
+            document.getElementById('enemySkill').value = "288";
+            document.getElementById('cityLevel').value = "96";
             
-            button.classList.toggle('bg-amber-500/20');
-            button.classList.toggle('border-amber-500/40');
-            button.classList.toggle('text-amber-400');
-            
-            if (button.classList.contains('bg-amber-500/20')) {
-                tacticalBuffsValue += val;
-            } else {
-                tacticalBuffsValue -= val;
-            }
+            document.getElementById('myAtk').value = "120";
+            updateAtkSlider("120");
+        }
+
+        function updateAtkSlider(val) {
+            document.getElementById('myAtkVal').innerText = val + "%";
+            document.getElementById('myAtkNum').value = val;
             runCalculation();
         }
 
-        function resetBuffs() {
-            tacticalBuffsValue = 0;
-            const buttons = document.querySelectorAll('button[onclick^="toggleBuff"]');
-            buttons.forEach(btn => {
-                btn.className = "px-3 py-1.5 bg-slate-950 border border-slate-800 text-[11px] font-semibold rounded-lg text-slate-400 hover:text-white transition-all";
-            });
+        function updateAtkNum(val) {
+            const num = Math.min(Math.max(parseInt(val) || 0, 0), 1000);
+            document.getElementById('myAtk').value = num;
+            document.getElementById('myAtkVal').innerText = num + "%";
             runCalculation();
         }
 
-        // Toggle wall manual overwrite option
-        function toggleWallHpOverride() {
-            const isChecked = document.getElementById('overrideWallHp').checked;
-            const customInput = document.getElementById('customWallHp');
-            customInput.disabled = !isChecked;
-            if (isChecked) {
-                customInput.classList.remove('opacity-50');
-            } else {
-                customInput.classList.add('opacity-50');
-            }
-            runCalculation();
-        }
-
-        function updateWallHealthByLevel() {
-            const cityLevel = parseInt(document.getElementById('cityLevel').value) || 0;
-            // Precise Million Lords Wall HP formula: 57.14 * 1.20022^Level
-            const calculatedHp = 57.14 * Math.pow(1.20022, cityLevel);
-            
-            document.getElementById('wallHpText').innerText = formatGameValue(calculatedHp * 1e9);
-            document.getElementById('customWallHp').value = (calculatedHp).toFixed(2);
-            runCalculation();
+        function setAtkPreset(bonus) {
+            const currentAtk = parseInt(document.getElementById('myAtk').value) || 0;
+            const targetAtk = Math.min(currentAtk + bonus, 1000);
+            document.getElementById('myAtk').value = targetAtk;
+            updateAtkSlider(targetAtk);
         }
 
         function parseValueWithUnit(val, unit) {
@@ -324,158 +335,88 @@
             return Math.round(val).toLocaleString('vi-VN');
         }
 
-        // Core Calculation Engine
         function runCalculation() {
             // Get Attacker configurations
             const myTroopsRaw = parseValueWithUnit(document.getElementById('myTroops').value, document.getElementById('myTroopsUnit').value);
-            const myAtkBase = parseFloat(document.getElementById('myAtk').value) || 0;
-            const myAtkTotal = myAtkBase + tacticalBuffsValue;
+            const myAtkTotal = parseFloat(document.getElementById('myAtk').value) || 0;
             const attackerMultiplier = 1 + (myAtkTotal / 100);
             const totalPlayerAttackPower = myTroopsRaw * attackerMultiplier;
 
             // Get Defender configurations
             const enemyTroopsRaw = parseValueWithUnit(document.getElementById('enemyTroops').value, document.getElementById('enemyTroopsUnit').value);
-            const enemyDef1Percent = parseFloat(document.getElementById('enemyDef1').value) || 0;
-            const enemyDef2Percent = parseFloat(document.getElementById('enemyDef2').value) || 0;
+            const enemyShieldPercent = parseFloat(document.getElementById('enemyShield').value) || 0;
+            const enemySkillPercent = parseFloat(document.getElementById('enemySkill').value) || 0;
             const cityLevel = parseInt(document.getElementById('cityLevel').value) || 1;
 
-            // Compute Wall HP
-            let wallHpPower = 0;
-            const isWallOverride = document.getElementById('overrideWallHp').checked;
-            if (isWallOverride) {
-                const customWallGVal = parseFloat(document.getElementById('customWallHp').value) || 0;
-                wallHpPower = customWallGVal * 1e9;
-            } else {
-                wallHpPower = (57.14 * Math.pow(1.20022, cityLevel)) * 1e9;
-            }
+            // Calculate defense sub-values
+            const shieldDefPower = enemyTroopsRaw * (enemyShieldPercent / 100);
+            const skillDefPower = enemyTroopsRaw * (enemySkillPercent / 100);
+            
+            // Wall HP formula: 57.14 * 1.20022^Level * 10^9
+            const wallHpPower = (57.14 * Math.pow(1.20022, cityLevel)) * 1e9;
 
-            // Total Defense Power formula
-            const totalEnemyDefPower = wallHpPower + (enemyTroopsRaw * (1 + (enemyDef1Percent / 100) + (enemyDef2Percent / 100)));
+            // Sum up total defense power (matching image grand total calculation)
+            const totalEnemyDefPower = enemyTroopsRaw + shieldDefPower + skillDefPower + wallHpPower;
+
+            // Update individual calculated outputs in defense-card
+            document.getElementById('calcEnemyTroopsVal').innerText = formatGameValue(enemyTroopsRaw);
+            document.getElementById('calcShieldVal').innerText = formatGameValue(shieldDefPower);
+            document.getElementById('calcSkillVal').innerText = formatGameValue(skillDefPower);
+            document.getElementById('calcWallHpVal').innerText = formatGameValue(wallHpPower);
+            document.getElementById('enemyTotalPower').innerText = formatGameValue(totalEnemyDefPower);
 
             // Compute Minimum and Safe troops requirements
             const minRequiredToWin = totalEnemyDefPower / attackerMultiplier;
-            const safeRequiredToWin = minRequiredToWin * 1.02; // Standard +2% safety threshold
+            const safeRequiredToWin = minRequiredToWin * 1.02; // Standard +2% safety margin
 
-            // Update UI
+            // Update power comparative visual bars
             document.getElementById('barMyPower').innerText = formatGameValue(totalPlayerAttackPower);
             document.getElementById('barEnemyPower').innerText = formatGameValue(totalEnemyDefPower);
 
             const totalCombined = totalPlayerAttackPower + totalEnemyDefPower;
-            const myBarWidth = totalCombined > 0 ? (totalPlayerAttackPower / totalCombined) * 100 : 0;
-            const enemyBarWidth = 100 - myBarWidth;
-            
+            const myBarWidth = totalCombined > 0 ? (totalPlayerAttackPower / totalCombined) * 100 : 50;
             document.getElementById('myPowerBar').style.width = myBarWidth + '%';
-            document.getElementById('enemyPowerBar').style.width = enemyBarWidth + '%';
+            document.getElementById('enemyPowerBar').style.width = (100 - myBarWidth) + '%';
 
-            // Updates Advisor values
+            // Advisor calculations
             document.getElementById('minRequiredTroops').innerText = formatGameValue(minRequiredToWin);
             document.getElementById('safeRequiredTroops').innerText = formatGameValue(safeRequiredToWin);
 
-            const verdictCard = document.getElementById('verdictCard');
-            const verdictIcon = document.getElementById('verdictIcon');
-            const verdictTitle = document.getElementById('verdictTitle');
-            const verdictDesc = document.getElementById('verdictDesc');
+            const verdictStatus = document.getElementById('verdictStatus');
             const shortageTroops = document.getElementById('shortageTroops');
-            const estimatedCasualties = document.getElementById('estimatedCasualties');
+            const casualtyRate = document.getElementById('casualtyRate');
 
             if (myTroopsRaw >= safeRequiredToWin) {
-                // SUCCESS SCENARIO
-                verdictCard.className = "p-5 rounded-2xl border-2 bg-emerald-950/40 border-emerald-500 text-emerald-400 shadow-lg flex flex-col justify-center items-center text-center transition-all duration-300";
-                verdictIcon.innerText = "check_circle";
-                verdictIcon.className = "material-icons text-4xl mb-2 text-emerald-400 animate-pulse";
-                verdictTitle.innerText = "CÓ THỂ CHIẾM THÀNH!";
-                verdictDesc.innerText = `Lực lượng dư sau chiến thắng: +${formatGameValue(myTroopsRaw - safeRequiredToWin)}`;
-                shortageTroops.innerText = "Sẵn sàng công thành! (0)";
-                shortageTroops.className = "text-emerald-400 font-black text-xs";
+                // SUCCESS
+                verdictStatus.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30";
+                verdictStatus.innerText = "CHẮC THẮNG";
+                shortageTroops.innerText = "Sẵn sàng! (0)";
+                shortageTroops.className = "text-emerald-400 font-extrabold text-sm";
 
-                // Estimate casualities
                 const ratio = totalEnemyDefPower / totalPlayerAttackPower;
-                let lossRate = 0;
+                let lossRate = "Thương vong nhẹ";
                 if (ratio >= 0.8) {
-                    lossRate = "Nặng (~80% hao hụt)";
+                    lossRate = "Hao hụt cực nặng (~80%)";
                 } else if (ratio >= 0.5) {
-                    lossRate = "Vừa (~50% hao hụt)";
-                } else {
-                    lossRate = "Nhẹ (An toàn)";
+                    lossRate = "Hao hụt vừa (~50%)";
                 }
-                estimatedCasualties.innerText = `Thương vong phe ta: ${lossRate}`;
-                estimatedCasualties.className = "text-emerald-400 text-[10px] font-black";
+                casualtyRate.innerText = `Ước tính: ${lossRate}`;
+                casualtyRate.className = "text-emerald-400 font-bold";
             } else {
-                // FAILURE SCENARIO
+                // FAIL/SHORTAGE
                 const needed = safeRequiredToWin - myTroopsRaw;
-                verdictCard.className = "p-5 rounded-2xl border-2 bg-rose-950/40 border-rose-500 text-rose-400 shadow-lg flex flex-col justify-center items-center text-center transition-all duration-300";
-                verdictIcon.innerText = "error";
-                verdictIcon.className = "material-icons text-4xl mb-2 text-rose-400";
-                verdictTitle.innerText = "SỨC MẠNH CHƯA ĐỦ!";
-                verdictDesc.innerText = `Bạn cần thêm tối thiểu ${formatGameValue(needed)} lính để công thành an toàn.`;
-                shortageTroops.innerText = `-${formatGameValue(needed)}`;
-                shortageTroops.className = "text-rose-400 font-black text-xs";
-                estimatedCasualties.innerText = "Xác suất thất bại: 100%";
-                estimatedCasualties.className = "text-rose-400 text-[10px] font-black";
+                verdictStatus.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-rose-500/15 text-rose-400 border border-rose-500/30";
+                verdictStatus.innerText = "THIẾU QUÂN";
+                shortageTroops.innerText = `+${formatGameValue(needed)}`;
+                shortageTroops.className = "text-rose-400 font-extrabold text-sm";
+                casualtyRate.innerText = "Thất bại nếu tấn công";
+                casualtyRate.className = "text-rose-400 font-bold";
             }
         }
 
-        // Save target configuration to History list
-        function saveCurrentTarget() {
-            const level = document.getElementById('cityLevel').value;
-            const enemyTroops = document.getElementById('enemyTroops').value + document.getElementById('enemyTroopsUnit').value;
-            const def1 = document.getElementById('enemyDef1').value;
-            const def2 = document.getElementById('enemyDef2').value;
-            const now = new Date();
-            const timeString = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-
-            const newTarget = {
-                id: Date.now(),
-                title: `Thành cấp ${level} (${timeString})`,
-                level: level,
-                troops: document.getElementById('enemyTroops').value,
-                unit: document.getElementById('enemyTroopsUnit').value,
-                def1: def1,
-                def2: def2
-            };
-
-            scoutTargets.unshift(newTarget);
-            if (scoutTargets.length > 5) scoutTargets.pop(); // Giới hạn 5 mục tiêu gần nhất
-            localStorage.setItem('ml_scout_history', JSON.stringify(scoutTargets));
-            renderHistory();
-        }
-
-        function loadTargetFromHistory(id) {
-            const target = scoutTargets.find(t => t.id === id);
-            if (target) {
-                document.getElementById('cityLevel').value = target.level;
-                document.getElementById('enemyTroops').value = target.troops;
-                document.getElementById('enemyTroopsUnit').value = target.unit;
-                document.getElementById('enemyDef1').value = target.def1;
-                document.getElementById('enemyDef2').value = target.def2;
-                updateWallHealthByLevel();
-            }
-        }
-
-        function renderHistory() {
-            const listContainer = document.getElementById('historyList');
-            if (scoutTargets.length === 0) {
-                listContainer.innerHTML = `<p class="text-slate-500 text-center py-4">Chưa có mục tiêu nào được lưu.</p>`;
-                return;
-            }
-
-            listContainer.innerHTML = scoutTargets.map(target => `
-                <div class="flex items-center justify-between p-2 bg-slate-950/60 hover:bg-slate-900 border border-slate-800 rounded-xl transition-all">
-                    <div class="flex flex-col">
-                        <span class="font-bold text-slate-300">${target.title}</span>
-                        <span class="text-[10px] text-slate-500">Quân lực: ${target.troops}${target.unit} | Shield: ${target.def1}% | Kỹ năng: ${target.def2}%</span>
-                    </div>
-                    <button onclick="loadTargetFromHistory(${target.id})" class="px-2 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-[10px] font-bold rounded-lg transition-all">
-                        Tải thông số
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        function clearTargetHistory() {
-            scoutTargets = [];
-            localStorage.removeItem('ml_scout_history');
-            renderHistory();
+        // Initialize with standard parameters
+        window.onload = function() {
+            runCalculation();
         }
     </script>
 </body>
