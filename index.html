@@ -121,6 +121,10 @@
 
                 <div class="bg-[#090e1a] rounded-xl border border-[#1e2d4a] p-3 text-xs space-y-2 flex flex-col justify-center">
                     <div class="flex justify-between text-gray-400">
+                        <span>Sức công của bạn:</span>
+                        <span id="myAttackPower" class="text-blue-400 font-bold">--</span>
+                    </div>
+                    <div class="flex justify-between text-gray-400 border-t border-[#1e2d4a]/50 pt-1.5">
                         <span>Ước tính Est. Def:</span>
                         <span id="calculatedEstDef" class="text-amber-500 font-bold">--</span>
                     </div>
@@ -172,6 +176,9 @@
             const estimatedWallHp = 89.3e9 * Math.pow(cityLevel / 116, 2.5);
             const totalEnemyEstDef = estimatedWallHp + (enemyTroopsRaw * (1 + (enemyDef / 100)));
             document.getElementById('calculatedEstDef').innerText = formatGameValue(totalEnemyEstDef);
+
+            const myAttackPowerRaw = myTroopsRaw * atkMultiplier;
+            document.getElementById('myAttackPower').innerText = formatGameValue(myAttackPowerRaw);
 
             const safeRequiredTroops = Math.ceil((totalEnemyEstDef / atkMultiplier) * 1.02);
             document.getElementById('safeRequired').innerText = formatGameValue(safeRequiredTroops);
