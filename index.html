@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -31,7 +30,6 @@
             color: #f59e0b;
             font-weight: bold;
         }
-        /* Hiệu ứng viền phát sáng nhẹ cho các khối quan trọng */
         .premium-border {
             position: relative;
         }
@@ -208,40 +206,33 @@
         }
 
         function runCalculation() {
-            // Đọc dữ liệu công của Attacker
             const myTroopsRaw = parseValueWithUnit(document.getElementById('myTroops').value, document.getElementById('myTroopsUnit').value);
             const myAtk = parseFloat(document.getElementById('myAtk').value) || 0;
             const atkMultiplier = 1 + (myAtk / 100);
 
-            // Bóc tách tính toán 4 dòng chuẩn xác theo cấu trúc logic ảnh
             const cityLevel = parseInt(document.getElementById('cityLevel').value) || 1;
-            const defaultDefBonusPercent = cityLevel * 3; // Game mặc định tỷ lệ 1 cấp = +3% thủ
+            const defaultDefBonusPercent = cityLevel * 3; 
             document.getElementById('cityDefPercent').innerText = defaultDefBonusPercent;
 
             const wallHpRaw = parseValueWithUnit(document.getElementById('wallHp').value, document.getElementById('wallHpUnit').value);
             const enemyTroopsRaw = parseValueWithUnit(document.getElementById('enemyTroops').value, document.getElementById('enemyTroopsUnit').value);
             const gearDefBonusPercent = parseFloat(document.getElementById('enemyExtraDef').value) || 0;
 
-            // 4 Dòng của hệ thống phòng thủ
             const line1Troops = enemyTroopsRaw;                                             
             const line2Gear = enemyTroopsRaw * (gearDefBonusPercent / 100);                 
             const line3Default = enemyTroopsRaw * (defaultDefBonusPercent / 100);           
             const line4Wall = wallHpRaw;                                                    
 
-            // Tổng thủ địch
             const enemyDefensePower = line1Troops + line2Gear + line3Default + line4Wall;
             document.getElementById('calculatedEstDef').value = formatGameValue(enemyDefensePower);
 
-            // Tính toán lực lượng yêu cầu
             const baseRequired = enemyDefensePower / atkMultiplier;
             const safeRequired = Math.ceil(baseRequired * 1.02); 
 
-            // Cập nhật lên widget phân tích
             document.getElementById('myActualPower').innerText = formatGameValue(myTroopsRaw * atkMultiplier);
             document.getElementById('rawRequired').innerText = formatGameValue(baseRequired);
             document.getElementById('safeRequired').innerText = formatGameValue(safeRequired);
 
-            // Kết xuất thẻ trạng thái kết quả trận đấu
             const statusCard = document.getElementById('statusCard');
             const statusIcon = document.getElementById('statusIcon');
             const statusTitle = document.getElementById('statusTitle');
@@ -260,7 +251,6 @@
             }
         }
 
-        // Khởi động tính toán ngay lần tải đầu tiên
         window.onload = function() {
             runCalculation();
         };
