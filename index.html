@@ -95,9 +95,9 @@
                 </h3>
                 
                 <div class="space-y-4">
-                    <div class="space-y-4">
+                    <div class="grid grid-cols-1 gap-4">
                         <div>
-                            <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">Số lính địch hiện tại</label>
+                            <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">Số lính địch (A)</label>
                             <div class="flex gap-2">
                                 <input type="number" id="enemyTroops" value="343" min="0" class="w-full p-2.5 rounded-lg game-input font-bold text-base text-center" oninput="runCalculation()">
                                 <select id="enemyTroopsUnit" class="p-2 rounded-lg game-select text-sm cursor-pointer" onchange="runCalculation()">
@@ -109,14 +109,20 @@
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">Cấp thành phố (City Level)</label>
-                            <input type="number" id="cityLevel" value="80" min="1" max="500" class="w-full p-2.5 rounded-lg game-input font-bold text-base text-center" oninput="runCalculation()">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">Def Gear % (B)</label>
+                                <input type="number" id="enemyExtraDef" value="155" min="0" class="w-full p-2.5 rounded-lg game-input font-bold text-base text-center text-cyan-400" oninput="runCalculation()">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">Cấp thành phố (C)</label>
+                                <input type="number" id="cityLevel" value="80" min="1" max="500" class="w-full p-2.5 rounded-lg game-input font-bold text-base text-center" oninput="runCalculation()">
+                            </div>
                         </div>
                     </div>
 
                     <div class="bg-[#0b111e] p-3 rounded-xl text-center border border-[#1e2d4a] relative group">
-                        <span class="text-[9px] text-gray-400 block font-bold uppercase tracking-wider mb-0.5">DỰ ĐOÁN TỔNG THỦ THÀNH ĐỊCH (ESTIMATED DEFENSE)</span>
+                        <span class="text-[9px] text-gray-400 block font-bold uppercase tracking-wider mb-0.5">TỔNG ESTIMATED DEFENSE ĐỊCH TỰ TÍNH</span>
                         <input type="text" id="calculatedEstDef" class="w-full bg-transparent border-none text-center text-xl font-black text-amber-500 focus:outline-none cursor-default" readonly value="0G">
                     </div>
                 </div>
@@ -186,24 +192,27 @@
             return Math.round(val).toLocaleString('vi-VN');
         }
 
+        function getWallHp(level) {
+            if (level <= 80) {
+                return level * 1.575 * 1e6;
+            } else {
+                return 2.32 * 1e9;
+            }
+        }
+
         function runCalculation() {
             const myTroopsRaw = parseValueWithUnit(document.getElementById('myTroops').value, document.getElementById('myTroopsUnit').value);
             const myAtk = parseFloat(document.getElementById('myAtk').value) || 0;
             const atkMultiplier = 1 + (myAtk / 100);
 
-            const cityLevel = parseInt(document.getElementById('cityLevel').value) || 1;
-            
-            const defaultDefBonusPercent = cityLevel * 3;
-            const wallHpRaw = cityLevel * 1.575 * 1e6; 
             const enemyTroopsRaw = parseValueWithUnit(document.getElementById('enemyTroops').value, document.getElementById('enemyTroopsUnit').value);
-            const gearDefBonusPercent = cityLevel * 1.9375; 
+            const gearDefPercent = parseFloat(document.getElementById('enemyExtraDef').value) || 0;
+            const cityLevel = parseInt(document.getElementById('cityLevel').value) || 1;
 
-            const line1Troops = enemyTroopsRaw;                                             
-            const line2Gear = enemyTroopsRaw * (gearDefBonusPercent / 100);                 
-            const line3Default = enemyTroopsRaw * (defaultDefBonusPercent / 100);           
-            const line4Wall = wallHpRaw;                                                    
+            const wallHp = getWallHp(cityLevel);
+            const totalPercentMultiplier = 1 + ((gearDefPercent + (cityLevel * 3)) / 100);
 
-            const enemyDefensePower = line1Troops + line2Gear + line3Default + line4Wall;
+            const enemyDefensePower = wallHp + (enemyTroopsRaw * totalPercentMultiplier);
             document.getElementById('calculatedEstDef').value = formatGameValue(enemyDefensePower);
 
             const baseRequired = enemyDefensePower / atkMultiplier;
