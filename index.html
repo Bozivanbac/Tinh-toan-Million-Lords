@@ -70,7 +70,7 @@
                         <div>
                             <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">Lính bạn hiện có</label>
                             <div class="flex gap-2">
-                                <input type="number" id="myTroops" value="1.82" step="0.01" min="0" class="w-full p-2.5 rounded-lg game-input font-bold text-base text-center" oninput="runCalculation()">
+                                <input type="number" id="myTroops" value="3.5" step="0.01" min="0" class="w-full p-2.5 rounded-lg game-input font-bold text-base text-center" oninput="runCalculation()">
                                 <select id="myTroopsUnit" class="p-2 rounded-lg game-select text-sm cursor-pointer" onchange="runCalculation()">
                                     <option value="T">T</option>
                                     <option value="G" selected>G</option>
@@ -82,7 +82,7 @@
 
                         <div>
                             <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">Tổng Striker công của bạn (%)</label>
-                            <input type="number" id="myAtk" value="0" min="0" max="1000" class="w-full p-2.5 rounded-lg game-input font-bold text-base text-center" oninput="runCalculation()">
+                            <input type="number" id="myAtk" value="45" min="0" max="1000" class="w-full p-2.5 rounded-lg game-input font-bold text-base text-center" oninput="runCalculation()">
                         </div>
                     </div>
                 </div>
@@ -91,51 +91,38 @@
 
             <div class="bg-[#131f37]/60 border border-[#233557] rounded-2xl p-5 backdrop-blur-sm">
                 <h3 class="text-xs md:text-sm font-extrabold text-red-400 uppercase tracking-widest mb-4 flex items-center gap-1.5 border-b border-[#1f2d47] pb-2">
-                    <span class="material-icons text-sm">shield</span> PHÍA ĐỊCH (BÁO CÁO TARGET)
+                    <span class="material-icons text-sm">shield</span> PHÍA ĐỊCH (TARGET SCOUT)
                 </h3>
                 
                 <div class="space-y-4">
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">1. Lính Địch (Gốc)</label>
-                            <div class="flex gap-1">
-                                <input type="number" id="enemyTroops" value="343" min="0" class="w-full p-2 rounded-lg game-input font-bold text-center" oninput="runCalculation()">
-                                <select id="enemyTroopsUnit" class="p-1 rounded-lg game-select text-xs cursor-pointer" onchange="runCalculation()">
-                                    <option value="T">T</option>
-                                    <option value="G">G</option>
-                                    <option value="M" selected>M</option>
-                                    <option value="K">K</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">2. Buff từ Gear (%)</label>
-                            <input type="number" id="enemyExtraDef" value="155" min="0" class="w-full p-2 rounded-lg game-input font-bold text-center text-cyan-400" oninput="runCalculation()">
+                    <div>
+                        <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">Số lính địch (Troops)</label>
+                        <div class="flex gap-2">
+                            <input type="number" id="enemyTroops" value="8.25" step="0.01" min="0" class="w-full p-2.5 rounded-lg game-input font-bold text-base text-center" oninput="runCalculation()">
+                            <select id="enemyTroopsUnit" class="p-2 rounded-lg game-select text-sm cursor-pointer" onchange="runCalculation()">
+                                <option value="T">T</option>
+                                <option value="G">G</option>
+                                <option value="M" selected>M</option>
+                                <option value="K">K</option>
+                            </select>
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-2 gap-3 border-t border-[#233557]/40 pt-3">
-                        <div>
-                            <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">3. Cấp thành (Mặc định)</label>
-                            <input type="number" id="cityLevel" value="80" min="1" max="500" class="w-full p-2 rounded-lg game-input font-bold text-center" oninput="runCalculation()">
-                            <div class="text-[9px] text-gray-400 mt-1 text-center">Tự quy đổi: +<span id="cityDefPercent" class="text-amber-500 font-bold">240</span>% Thủ</div>
-                        </div>
-                        <div>
-                            <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">4. Máu tường (Mặc định)</label>
-                            <div class="flex gap-1">
-                                <input type="number" id="wallHp" value="126" step="0.1" min="0" class="w-full p-2 rounded-lg game-input font-bold text-center" oninput="runCalculation()">
-                                <select id="wallHpUnit" class="p-1 rounded-lg game-select text-xs cursor-pointer" onchange="runCalculation()">
-                                    <option value="T">T</option>
-                                    <option value="G">G</option>
-                                    <option value="M" selected>M</option>
-                                    <option value="K">K</option>
-                                </select>
-                            </div>
+                    <div>
+                        <label class="block text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wide">Thông số tường thành (City Walls)</label>
+                        <div class="flex gap-2">
+                            <input type="number" id="wallHp" value="2.32" step="0.01" min="0" class="w-full p-2.5 rounded-lg game-input font-bold text-base text-center text-cyan-400" oninput="runCalculation()">
+                            <select id="wallHpUnit" class="p-2 rounded-lg game-select text-sm cursor-pointer" onchange="runCalculation()">
+                                <option value="T">T</option>
+                                <option value="G" selected>G</option>
+                                <option value="M">M</option>
+                                <option value="K">K</option>
+                            </select>
                         </div>
                     </div>
 
-                    <div class="bg-[#0b111e] p-3 rounded-xl text-center border border-[#1e2d4a] relative group">
-                        <span class="text-[9px] text-gray-400 block font-bold uppercase tracking-wider mb-0.5">TỔNG ESTIMATED DEFENSE ĐỊCH (1+2+3+4)</span>
+                    <div class="bg-[#0b111e] p-3 rounded-xl text-center border border-[#1e2d4a] mt-2">
+                        <span class="text-[9px] text-gray-400 block font-bold uppercase tracking-wider mb-0.5">TỔNG ESTIMATED DEFENSE ƯỚC TÍNH</span>
                         <input type="text" id="calculatedEstDef" class="w-full bg-transparent border-none text-center text-xl font-black text-amber-500 focus:outline-none cursor-default" readonly value="0G">
                     </div>
                 </div>
@@ -210,20 +197,10 @@
             const myAtk = parseFloat(document.getElementById('myAtk').value) || 0;
             const atkMultiplier = 1 + (myAtk / 100);
 
-            const cityLevel = parseInt(document.getElementById('cityLevel').value) || 1;
-            const defaultDefBonusPercent = cityLevel * 3; 
-            document.getElementById('cityDefPercent').innerText = defaultDefBonusPercent;
-
-            const wallHpRaw = parseValueWithUnit(document.getElementById('wallHp').value, document.getElementById('wallHpUnit').value);
             const enemyTroopsRaw = parseValueWithUnit(document.getElementById('enemyTroops').value, document.getElementById('enemyTroopsUnit').value);
-            const gearDefBonusPercent = parseFloat(document.getElementById('enemyExtraDef').value) || 0;
+            const wallHpRaw = parseValueWithUnit(document.getElementById('wallHp').value, document.getElementById('wallHpUnit').value);
 
-            const line1Troops = enemyTroopsRaw;                                             
-            const line2Gear = enemyTroopsRaw * (gearDefBonusPercent / 100);                 
-            const line3Default = enemyTroopsRaw * (defaultDefBonusPercent / 100);           
-            const line4Wall = wallHpRaw;                                                    
-
-            const enemyDefensePower = line1Troops + line2Gear + line3Default + line4Wall;
+            const enemyDefensePower = enemyTroopsRaw + wallHpRaw;
             document.getElementById('calculatedEstDef').value = formatGameValue(enemyDefensePower);
 
             const baseRequired = enemyDefensePower / atkMultiplier;
