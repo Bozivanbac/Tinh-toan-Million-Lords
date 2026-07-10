@@ -149,7 +149,7 @@
                             <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1 tracking-wide flex items-center gap-1">
                                 <span class="material-icons text-xs text-amber-500">add_moderator</span> % Thủ (Tự động)
                             </label>
-                            <input type="text" id="cityDefPercentDisplay" class="w-full p-2 rounded-lg game-input font-bold text-sm text-center text-amber-500 bg-[#070c16] border-[#162238] cursor-not-allowed" readonly value="+246%">
+                            <input type="text" id="cityDefPercentDisplay" class="w-full p-2.lg game-input font-bold text-sm text-center text-amber-500 bg-[#070c16] border-[#162238] cursor-not-allowed" readonly value="+246%">
                         </div>
                     </div>
 
@@ -202,7 +202,7 @@
         <div class="flex items-center gap-3 text-[9px] font-bold tracking-wider text-gray-500 uppercase bg-[#090e1a] px-3 py-1 rounded-full border border-[#1e2d4a]/40">
             <span class="flex items-center gap-1"><span class="material-icons text-[10px] text-blue-400">people</span> Tổng Người Dùng: <span id="statUsers" class="text-gray-300">...</span></span>
             <span class="text-gray-700">•</span>
-            <span class="flex items-center gap-1"><span class="material-icons text-[10px] text-amber-500">visibility</span> Số Lượt Click Tính: <span id="statViews" class="text-gray-300">...</span></span>
+            <span class="flex items-center gap-1"><span class="material-icons text-[10px] text-amber-500">visibility</span> Số Lượt Tải Trang: <span id="statViews" class="text-gray-300">...</span></span>
         </div>
         
         <div class="inline-flex items-center gap-2 bg-[#0e1626]/80 border border-[#1e2d4a] px-4 py-1 rounded-full text-[9px] font-medium tracking-widest uppercase text-gray-400 shadow-lg shadow-black/40 backdrop-blur-md">
@@ -212,19 +212,19 @@
     </footer>
 
     <script>
-        const KEY_PREFIX = 'vanbac_ml_v3';
+        const DB_NAME = 'millionlords_vanbac_pro_system';
 
         async function initOnlineCounter() {
             try {
-                const resViews = await fetch(`https://api.counterapi.dev/v1/${KEY_PREFIX}/views/up`).then(r => r.json());
+                const resViews = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/views/up`).then(r => r.json());
                 document.getElementById('statViews').innerText = resViews.value.toLocaleString('vi-VN');
 
-                if (!localStorage.getItem('ml_real_user_registered_v3')) {
-                    localStorage.setItem('ml_real_user_registered_v3', 'true');
-                    await fetch(`https://api.counterapi.dev/v1/${KEY_PREFIX}/users/up`);
+                if (!localStorage.getItem('ml_real_user_registered_v4')) {
+                    localStorage.setItem('ml_real_user_registered_v4', 'true');
+                    await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/users/up`);
                 }
                 
-                const resUsers = await fetch(`https://api.counterapi.dev/v1/${KEY_PREFIX}/users`).then(r => r.json());
+                const resUsers = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/users`).then(r => r.json());
                 document.getElementById('statUsers').innerText = resUsers.value.toLocaleString('vi-VN');
             } catch (e) {
                 document.getElementById('statViews').innerText = "1";
@@ -329,6 +329,14 @@
         window.onload = function() {
             initOnlineCounter();
             runCalculation();
+            setInterval(async () => {
+                try {
+                    const resViews = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/views`).then(r => r.json());
+                    const resUsers = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/users`).then(r => r.json());
+                    document.getElementById('statViews').innerText = resViews.value.toLocaleString('vi-VN');
+                    document.getElementById('statUsers').innerText = resUsers.value.toLocaleString('vi-VN');
+                } catch(e){}
+            }, 15000);
         };
     </script>
 </body>
