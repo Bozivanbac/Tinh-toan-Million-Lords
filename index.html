@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Million Lords Calc</title>
     
-    <!-- CẤU HÌNH LOGO CHO THIẾT BỊ DI ĐỘNG (PWA ICON) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ML Máy Tính">
     <meta name="mobile-web-app-capable" content="yes">
     
-    <!-- TÍNH HỢP LOGO MŨ GIÁP SVG CHUẨN ĐỂ ĐIỆN THOẠI NHẬN DIỆN KHI CÀI ĐẶT -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M20 15 L35 30 L40 25 L35 10 Z' fill='%235bc0de'/><path d='M80 15 L65 30 L60 25 L65 10 Z' fill='%235bc0de'/><path d='M50 20 L25 45 L30 65 L40 75 L50 80 L60 75 L70 65 L75 45 Z' fill='%23f59e0b'/><path d='M40 50 L30 55 L42 58 Z M60 50 L70 55 L58 58 Z' fill='%23ffffff'/><path d='M30 85 L70 85 L65 92 L35 92 Z' fill='%23ffffff'/></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230e1626'/><path d='M20 15 L35 30 L40 25 L35 10 Z' fill='%235bc0de'/><path d='M80 15 L65 30 L60 25 L65 10 Z' fill='%235bc0de'/><path d='M50 20 L25 45 L30 65 L40 75 L50 80 L60 75 L70 65 L75 45 Z' fill='%23f59e0b'/><path d='M40 50 L30 55 L42 58 Z M60 50 L70 55 L58 58 Z' fill='%23ffffff'/></svg>">
 
@@ -62,22 +60,16 @@
 
     <div class="w-full max-w-4xl bg-[#0e1626] border-2 border-[#1e2d4a] rounded-3xl shadow-2xl overflow-hidden p-4 md:p-6 premium-border">
         
-        <!-- THANH TIÊU ĐỀ ĐÃ ĐƯỢC THAY LOGO HÌNH MŨ GIÁP CHUẨN CỦA GAME -->
         <div class="text-center pb-4 border-b border-[#1f2d47] mb-4 flex flex-col items-center justify-center gap-2">
             <div class="flex items-center justify-center gap-3">
-                <!-- LOGO VECTOR MŨ GIÁP TÁI HIỆN TỪ ẢNH CỦA BẠN -->
                 <div class="w-10 h-10 md:w-14 md:h-14 p-1.5 bg-[#f59e0b] rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/20 border border-amber-400">
                     <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-                        <!-- Hai sừng xanh phía sau -->
                         <path d="M22 18 L36 32 L40 26 L34 12 Z" fill="#38bdf8"/>
                         <path d="M78 18 L64 32 L60 26 L66 12 Z" fill="#38bdf8"/>
-                        <!-- Mũ giáp vàng chính giữa -->
                         <path d="M50 18 L24 45 L28 66 L38 78 L50 84 L62 78 L72 66 L76 45 Z" fill="#d97706"/>
                         <path d="M50 18 L32 45 L34 62 L42 74 L50 78 L58 74 L66 62 L68 45 Z" fill="#f59e0b"/>
-                        <!-- Mắt phát sáng trắng -->
                         <path d="M38 48 L46 51 L44 54 Z" fill="#ffffff"/>
                         <path d="M62 48 L54 51 L56 54 Z" fill="#ffffff"/>
-                        <!-- Mũi và các khe góc cạnh -->
                         <path d="M50 45 L46 60 L50 64 L54 60 Z" fill="#b45309"/>
                     </svg>
                 </div>
@@ -90,7 +82,6 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             
-            <!-- PHÍA BẠN -->
             <div class="bg-[#131f37]/60 border border-[#233557] rounded-2xl p-4 flex flex-col justify-between backdrop-blur-sm">
                 <div>
                     <h3 class="text-xs font-extrabold text-blue-400 uppercase tracking-widest mb-3 flex items-center gap-1.5 border-b border-[#1f2d47] pb-1.5">
@@ -119,7 +110,6 @@
                 </div>
             </div>
 
-            <!-- PHÍA ĐỊCH -->
             <div class="bg-[#131f37]/60 border border-[#233557] rounded-2xl p-4 backdrop-blur-sm">
                 <h3 class="text-xs font-extrabold text-red-400 uppercase tracking-widest mb-3 flex items-center gap-1.5 border-b border-[#1f2d47] pb-1.5">
                     <span class="material-icons text-sm">shield</span> PHÍA ĐỊCH (ĐỒNG BỘ 100%)
@@ -178,7 +168,6 @@
 
         </div>
 
-        <!-- PHÂN TÍCH CHIẾN TRƯỜNG -->
         <div class="border-t border-[#1f2d47] pt-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
                 <div class="md:col-span-2 flex">
@@ -210,7 +199,6 @@
 
     </div>
 
-    <!-- FOOTER CHỨA BỘ ĐẾM ONLINE -->
     <footer class="mt-4 text-center flex flex-col items-center gap-2">
         <div class="flex items-center gap-3 text-[9px] font-bold tracking-wider text-gray-500 uppercase bg-[#090e1a] px-3 py-1 rounded-full border border-[#1e2d4a]/40">
             <span class="flex items-center gap-1"><span class="material-icons text-[10px] text-blue-400">people</span> Tổng Người Dùng: <span id="statUsers" class="text-gray-300">Đang tải...</span></span>
@@ -248,7 +236,6 @@
             }
         }
 
-        // DATABASE ĐỊNH MỨC GAME MILLION LORDS
         function getGameDatabase(level) {
             const lv = parseInt(level) || 1;
             const cityDefPercent = lv * 3; 
