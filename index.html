@@ -77,7 +77,6 @@
                     MILLION LORDS • MÁY TÍNH CHIẾN TRƯỜNG
                 </h1>
             </div>
-            <p class="text-[10px] text-gray-400 italic">Mẹo: Bật "Xem dạng Pop-up" hoặc "Chia đôi màn hình" trên ĐT để mở cửa sổ nhỏ khi chơi game</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -201,9 +200,9 @@
 
     <footer class="mt-4 text-center flex flex-col items-center gap-2">
         <div class="flex items-center gap-3 text-[9px] font-bold tracking-wider text-gray-500 uppercase bg-[#090e1a] px-3 py-1 rounded-full border border-[#1e2d4a]/40">
-            <span class="flex items-center gap-1"><span class="material-icons text-[10px] text-blue-400">people</span> Tổng Người Dùng: <span id="statUsers" class="text-gray-300">Đang tải...</span></span>
+            <span class="flex items-center gap-1"><span class="material-icons text-[10px] text-blue-400">people</span> Tổng Người Dùng: <span id="statUsers" class="text-gray-300">...</span></span>
             <span class="text-gray-700">•</span>
-            <span class="flex items-center gap-1"><span class="material-icons text-[10px] text-amber-500">visibility</span> Số Lượt Click Tính: <span id="statViews" class="text-gray-300">Đang tải...</span></span>
+            <span class="flex items-center gap-1"><span class="material-icons text-[10px] text-amber-500">visibility</span> Số Lượt Click Tính: <span id="statViews" class="text-gray-300">...</span></span>
         </div>
         
         <div class="inline-flex items-center gap-2 bg-[#0e1626]/80 border border-[#1e2d4a] px-4 py-1 rounded-full text-[9px] font-medium tracking-widest uppercase text-gray-400 shadow-lg shadow-black/40 backdrop-blur-md">
@@ -213,26 +212,23 @@
     </footer>
 
     <script>
-        const API_KEY = 'vanbac_millionlords_unique_v1';
+        const KEY_PREFIX = 'vanbac_ml_v3';
 
         async function initOnlineCounter() {
             try {
-                const resViews = await fetch(`https://api.countapi.xyz/hit/${API_KEY}/views`).then(r => r.json());
-                document.getElementById('statViews').innerText = resViews.value.toLocaleString();
+                const resViews = await fetch(`https://api.counterapi.dev/v1/${KEY_PREFIX}/views/up`).then(r => r.json());
+                document.getElementById('statViews').innerText = resViews.value.toLocaleString('vi-VN');
 
-                if (!localStorage.getItem('ml_user_registered')) {
-                    localStorage.setItem('ml_user_registered', 'true');
-                    await fetch(`https://api.countapi.xyz/hit/${API_KEY}/users`);
+                if (!localStorage.getItem('ml_real_user_registered_v3')) {
+                    localStorage.setItem('ml_real_user_registered_v3', 'true');
+                    await fetch(`https://api.counterapi.dev/v1/${KEY_PREFIX}/users/up`);
                 }
                 
-                const resUsers = await fetch(`https://api.countapi.xyz/info/${API_KEY}/users`).then(r => r.json());
-                document.getElementById('statUsers').innerText = resUsers.value.toLocaleString();
+                const resUsers = await fetch(`https://api.counterapi.dev/v1/${KEY_PREFIX}/users`).then(r => r.json());
+                document.getElementById('statUsers').innerText = resUsers.value.toLocaleString('vi-VN');
             } catch (e) {
-                let localViews = parseInt(localStorage.getItem('loc_v')) || 128;
-                localViews++;
-                localStorage.setItem('loc_v', localViews);
-                document.getElementById('statViews').innerText = localViews;
-                document.getElementById('statUsers').innerText = Math.floor(localViews / 3) + 12;
+                document.getElementById('statViews').innerText = "1";
+                document.getElementById('statUsers').innerText = "1";
             }
         }
 
