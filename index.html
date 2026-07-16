@@ -237,16 +237,25 @@
         let isFirstLoad = true;
         let debounceTimer;
 
+        let localViews = parseInt(localStorage.getItem('ml_local_views')) || 1;
+        let localCalcs = parseInt(localStorage.getItem('ml_local_calcs')) || 0;
+
         async function initOnlineCounter() {
             try {
                 const resViews = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/page_views/up`).then(r => r.json());
-                document.getElementById('statViews').innerText = resViews.value.toLocaleString('vi-VN');
+                const onlineViews = resViews.value;
+                document.getElementById('statViews').innerText = onlineViews.toLocaleString('vi-VN');
+                localStorage.setItem('ml_local_views', onlineViews);
                 
                 const resCalcs = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/features_used`).then(r => r.json());
-                document.getElementById('statCalculations').innerText = resCalcs.value.toLocaleString('vi-VN');
+                const onlineCalcs = resCalcs.value;
+                document.getElementById('statCalculations').innerText = onlineCalcs.toLocaleString('vi-VN');
+                localStorage.setItem('ml_local_calcs', onlineCalcs);
             } catch (e) {
-                document.getElementById('statViews').innerText = "1";
-                document.getElementById('statCalculations').innerText = "0";
+                localViews += 1;
+                localStorage.setItem('ml_local_views', localViews);
+                document.getElementById('statViews').innerText = localViews.toLocaleString('vi-VN');
+                document.getElementById('statCalculations').innerText = localCalcs.toLocaleString('vi-VN');
             }
         }
 
@@ -254,7 +263,12 @@
             try {
                 const resCalcs = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/features_used/up`).then(r => r.json());
                 document.getElementById('statCalculations').innerText = resCalcs.value.toLocaleString('vi-VN');
-            } catch (e) {}
+                localStorage.setItem('ml_local_calcs', resCalcs.value);
+            } catch (e) {
+                localCalcs += 1;
+                localStorage.setItem('ml_local_calcs', localCalcs);
+                document.getElementById('statCalculations').innerText = localCalcs.toLocaleString('vi-VN');
+            }
         }
 
         function triggerCalculation() {
