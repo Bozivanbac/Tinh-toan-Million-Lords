@@ -234,51 +234,72 @@
 
     <script>
         const DB_NAME = 'millionlords_vanbac_pro_system';
-        let isFirstLoad = true;
         let debounceTimer;
 
-        let localViews = parseInt(localStorage.getItem('ml_local_views')) || 1;
-        let localCalcs = parseInt(localStorage.getItem('ml_local_calcs')) || 0;
+        const safeStorage = {
+            getItem(key, fallbackValue) {
+                try {
+                    const item = localStorage.getItem(key);
+                    return item !== null ? parseInt(item) : fallbackValue;
+                } catch (e) {
+                    return fallbackValue;
+                }
+            },
+            setItem(key, value) {
+                try {
+                    localStorage.setItem(key, value);
+                } catch (e) {}
+            }
+        };
+
+        let localViews = safeStorage.getItem('ml_local_views', 1);
+        let localCalcs = safeStorage.getItem('ml_local_calcs', 0);
 
         async function initOnlineCounter() {
+            document.getElementById('statViews').innerText = localViews.toLocaleString('vi-VN');
+            document.getElementById('statCalculations').innerText = localCalcs.toLocaleString('vi-VN');
+
             try {
                 const resViews = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/page_views/up`).then(r => r.json());
-                const onlineViews = resViews.value;
-                document.getElementById('statViews').innerText = onlineViews.toLocaleString('vi-VN');
-                localStorage.setItem('ml_local_views', onlineViews);
+                if (resViews && resViews.value) {
+                    localViews = resViews.value;
+                    safeStorage.setItem('ml_local_views', localViews);
+                    document.getElementById('statViews').innerText = localViews.toLocaleString('vi-VN');
+                }
                 
                 const resCalcs = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/features_used`).then(r => r.json());
-                const onlineCalcs = resCalcs.value;
-                document.getElementById('statCalculations').innerText = onlineCalcs.toLocaleString('vi-VN');
-                localStorage.setItem('ml_local_calcs', onlineCalcs);
+                if (resCalcs && resCalcs.value) {
+                    localCalcs = resCalcs.value;
+                    safeStorage.setItem('ml_local_calcs', localCalcs);
+                    document.getElementById('statCalculations').innerText = localCalcs.toLocaleString('vi-VN');
+                }
             } catch (e) {
                 localViews += 1;
-                localStorage.setItem('ml_local_views', localViews);
+                safeStorage.setItem('ml_local_views', localViews);
                 document.getElementById('statViews').innerText = localViews.toLocaleString('vi-VN');
-                document.getElementById('statCalculations').innerText = localCalcs.toLocaleString('vi-VN');
             }
         }
 
-        async function incrementCalculationCounter() {
-            try {
-                const resCalcs = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/features_used/up`).then(r => r.json());
-                document.getElementById('statCalculations').innerText = resCalcs.value.toLocaleString('vi-VN');
-                localStorage.setItem('ml_local_calcs', resCalcs.value);
-            } catch (e) {
-                localCalcs += 1;
-                localStorage.setItem('ml_local_calcs', localCalcs);
-                document.getElementById('statCalculations').innerText = localCalcs.toLocaleString('vi-VN');
-            }
+        function incrementCalculationCounter() {
+            localCalcs += 1;
+            safeStorage.setItem('ml_local_calcs', localCalcs);
+            document.getElementById('statCalculations').innerText = localCalcs.toLocaleString('vi-VN');
+
+            fetch(`https://api.counterapi.dev/v1/${DB_NAME}/features_used/up`)
+                .then(r => r.json())
+                .then(res => {
+                    if (res && res.value) {
+                        localCalcs = res.value;
+                        safeStorage.setItem('ml_local_calcs', localCalcs);
+                        document.getElementById('statCalculations').innerText = localCalcs.toLocaleString('vi-VN');
+                    }
+                })
+                .catch(err => {});
         }
 
         function triggerCalculation() {
             runCalculation();
             
-            if (isFirstLoad) {
-                isFirstLoad = false;
-                return;
-            }
-
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
                 incrementCalculationCounter();
