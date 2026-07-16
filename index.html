@@ -218,11 +218,9 @@
 
         async function initOnlineCounter() {
             try {
-                // 1. Tăng số lượt truy cập trang web (Mỗi khi load lại trang tăng 1)
                 const resViews = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/page_views/up`).then(r => r.json());
                 document.getElementById('statViews').innerText = resViews.value.toLocaleString('vi-VN');
                 
-                // 2. Lấy số lần tính toán hiện tại (Không tự động tăng lúc load trang)
                 const resCalcs = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/features_used`).then(r => r.json());
                 document.getElementById('statCalculations').innerText = resCalcs.value.toLocaleString('vi-VN');
             } catch (e) {
@@ -233,7 +231,6 @@
 
         async function incrementCalculationCounter() {
             try {
-                // Tăng số lượt đã sử dụng tính năng tính toán
                 const resCalcs = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/features_used/up`).then(r => r.json());
                 document.getElementById('statCalculations').innerText = resCalcs.value.toLocaleString('vi-VN');
             } catch (e) {}
@@ -242,13 +239,11 @@
         function triggerCalculation() {
             runCalculation();
             
-            // Nếu là lần chạy đầu tiên lúc load trang thì bỏ qua không đếm
             if (isFirstLoad) {
                 isFirstLoad = false;
                 return;
             }
 
-            // Chống spam API liên tục khi người dùng gõ phím nhanh (Debounce 800ms)
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
                 incrementCalculationCounter();
@@ -353,7 +348,6 @@
             initOnlineCounter();
             runCalculation();
             
-            // Cập nhật Realtime hiển thị mỗi 15 giây mà không làm tăng bộ đếm gốc
             setInterval(async () => {
                 try {
                     const resViews = await fetch(`https://api.counterapi.dev/v1/${DB_NAME}/page_views`).then(r => r.json());
